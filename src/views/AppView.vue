@@ -7,13 +7,12 @@
         v-bind="dragOptions"
         v-bind:key="idx"
         group="todo"
-        @change="handle($event, group)"
-        @start="drag = true"
-        @end="drag = false"
+        @change="handle(group.id)"
       >
         <template v-for="todo in group.items">
           <v-card :key="todo.pos" class="card" max-width="250">
             <v-card-title>{{ todo.desc }}</v-card-title>
+            <v-card-subtitle>{{ todo.pos }}</v-card-subtitle>
           </v-card>
         </template>
       </draggable>
@@ -41,15 +40,15 @@ const structure = [
         groupId: 0,
         subgroup: "Praktikum",
         due: "Date",
-        order: 1,
+        pos: 1,
         id: 2,
       },
       {
-        desc: "Termin absagem",
+        desc: "Praktikum gehen",
         groupId: 0,
         subgroup: undefined,
         due: "Date",
-        order: 2,
+        pos: 2,
         id: 3,
       },
       {
@@ -57,7 +56,7 @@ const structure = [
         groupId: 0,
         subgroup: undefined,
         due: "Date",
-        order: 3,
+        pos: 3,
         id: 4,
       },
     ],
@@ -67,7 +66,7 @@ const structure = [
     id: 1,
     items: [
       {
-        desc: "Anmeldung machen",
+        desc: "Account anlegen",
         groupId: 1,
         subgroup: "Wichtig",
         due: "Date",
@@ -75,7 +74,7 @@ const structure = [
         id: 5,
       },
       {
-        desc: "Arbeiten",
+        desc: "Issue Closen",
         groupId: 1,
         subgroup: "Praktikum",
         due: "Date",
@@ -89,20 +88,20 @@ const structure = [
     id: 2,
     items: [
       {
-        desc: "Anmeldung machen",
+        desc: "Videos schauen",
         groupId: 2,
         subgroup: "Wichtig",
         due: "Date",
-        order: 0,
-        id: 5,
+        pos: 0,
+        id: 7,
       },
       {
-        desc: "Arbeiten",
+        desc: "Lachen",
         groupId: 2,
         subgroup: "Praktikum",
         due: "Date",
-        order: 1,
-        id: 6,
+        pos: 1,
+        id: 8,
       },
     ],
   },
@@ -111,7 +110,6 @@ const structure = [
 export default {
   name: "transition-example-2",
   display: "Transitions",
-  order: 7,
   components: {
     draggable,
   },
@@ -122,24 +120,14 @@ export default {
     };
   },
   methods: {
-    // test: function (e) {
-    //   console.log(e.draggedContext.futureIndex);
-    // },
-    log: function (evt) {
-      window.console.log(evt.added);
-      //added , removed , moved
-    },
+    handle: function (groupId) {
+      this.structure
+        .filter((group) => group.id === groupId)[0]
+        .items.map((todo, idx) => {
+          todo.pos = idx;
+        });
 
-    handle: function (evt, group) {
-      if (evt.added !== undefined) {
-        evt.added.element.group = "neu";
-        evt.added.element.order = evt.added.newIndex;
-        console.log(evt.added);
-        console.log(group);
-      }
-      if (evt.moved !== undefined) {
-        evt.added.element.order = evt.added.newIndex;
-      }
+      //TODO: Send to Backend (update all/group)
     },
   },
   computed: {
