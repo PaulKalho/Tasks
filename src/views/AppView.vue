@@ -1,5 +1,9 @@
 <template>
   <div>
+    <v-app-bar color="primary" dark app>
+      <v-toolbar-title>ToDo</v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-app-bar>
     <template v-for="(group, idx) in structure">
       <draggable
         :list="group.items"
