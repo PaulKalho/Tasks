@@ -9,12 +9,13 @@
           type="input"
           v-model="passwort"
         ></v-text-field>
-        <v-btn min-width="200">Log-in</v-btn>
+        <v-btn min-width="200" @click="login">Log-in</v-btn>
       </form>
     </v-card>
   </v-container>
 </template>
 <script>
+import { api } from "@/plugins/axios";
 export default {
   name: "HomeView",
   data() {
@@ -25,7 +26,17 @@ export default {
   },
   components: {},
   computed: {},
-  methods: {},
+  methods: {
+    login() {
+      api
+        .post("/token/", { username: this.name, password: this.passwort })
+        .then((response) => {
+          api.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${response.access}`;
+        });
+    },
+  },
 };
 </script>
 <style>

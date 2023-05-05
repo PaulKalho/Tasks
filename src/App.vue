@@ -11,11 +11,11 @@
 <script>
 export default {
   name: "App",
-
-  components: {},
+  // mixins: [Model],
 
   data: () => ({
     //
   }),
+  mounted() {},
 };
 </script>
