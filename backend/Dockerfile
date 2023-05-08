@@ -2,7 +2,7 @@ FROM python:3.11.3
 
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /api
+WORKDIR ./backend
 
 RUN pip install --upgrade pip
 
