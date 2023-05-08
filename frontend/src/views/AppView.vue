@@ -37,6 +37,8 @@
               <v-card :key="idx" class="card" :color="calcColor(todo)">
                 <v-card-title>{{ todo.title }}</v-card-title>
                 <v-card-subtitle>{{ todo.deadline }}</v-card-subtitle>
+
+                <v-card-text>{{ todo.description }}</v-card-text>
               </v-card>
             </template>
           </draggable>
