@@ -44,6 +44,7 @@
           </draggable>
         </fieldset>
       </v-container>
+      <div class="hello mt-5"><img src="@/files/hello.jpg" width="250" /></div>
     </v-container>
   </div>
 </template>
