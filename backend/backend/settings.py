@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import datetime
+import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,12 +28,15 @@ SECRET_KEY = 'django-insecure-@&29f&@=hx$q5m9zqn7dqzcim@00o!eo@d3pb#25_yhuy2os^-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080"
+ALLOWED_HOSTS = [
+    os.environ.get("ALLOWED_HOST", "changeme")
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    os.environ.get("ALLOWED_ORIGIN", "http://localhost:8080")
+]
+
+CSRF_TRUSTED_ORIGINS = json.loads(os.environ.get('TRUSTED_ORIGINS', '["https://changeme.de"]'))
 
 # Application definition
 
@@ -105,7 +110,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'HOST': os.environ.get("DB_HOST", "localhost"),
         'PORT': '5432',
     }
 }
