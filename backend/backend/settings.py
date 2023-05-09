@@ -36,7 +36,7 @@ CORS_ALLOWED_ORIGINS = [
     os.environ.get("ALLOWED_ORIGIN", "http://localhost:8080")
 ]
 
-CSRF_TRUSTED_ORIGINS = json.loads(os.environ.get('TRUSTED_ORIGINS', '["https://changeme.de"]'))
+CSRF_TRUSTED_ORIGINS = ["https://todo-backend.kalhorn.io", "https://todo.kalhorn.io"]
 
 # Application definition
 
