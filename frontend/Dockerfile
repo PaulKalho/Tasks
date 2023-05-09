@@ -1,8 +1,6 @@
-FROM node:18
+FROM node:18 as builder
 
-RUN npm install -g http-server
-
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
@@ -12,5 +10,13 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 5040
-CMD [ "http-server", "dist" ]
+# NGINX
+FROM nginx:alpine as production-build
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
